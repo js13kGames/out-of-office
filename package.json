@@ -1,0 +1,21 @@
+{
+  "name": "out-of-office-js13k",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "description": "OUT OF OFFICE - a js13k entry. A Crimsonland-style arena shooter with a unicorn whose horn is a prism; all graphics and music generated from code.",
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/dev.js && echo 'open dev.html in a browser'",
+    "size": "node tools/build.js --report",
+    "pack": "node tools/build.js --roadroller",
+    "test": "node tools/build.js --test --roadroller && node tools/smoke.js",
+    "reopt": "node tools/build.js --roadroller --reopt",
+    "shots": "node tools/build.js --test --roadroller && node tools/shots.js"
+  },
+  "devDependencies": {
+    "canvas": "^3.2.3",
+    "roadroller": "^2.1.0",
+    "terser": "^5.31.0"
+  }
+}
