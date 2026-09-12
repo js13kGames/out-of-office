@@ -29,8 +29,8 @@ assets. Every pixel, note and word is generated from code at runtime.
 
 The packed entry is `dist/index.html`; `dist/game.zip` is the submission.
 `advzip` (from advancecomp, `brew install advancecomp`) is optional and worth
-about 400 bytes; the build says which zipper it used. Current pack: **13,303 B**,
-9 under the limit.
+about 400 bytes; the build says which zipper it used. Current pack: **13,306 B**,
+6 under the limit.
 
 `npm run sim` plays three five-minute games with a bot that kites, blinks
 when surrounded, chases pickups and picks perks by a priority list, and prints
@@ -129,11 +129,11 @@ BLINK pips in the bottom bar show them.
 
 **Perks** come three at a time on every level, and R rerolls them once. Each
 card rolls its own rarity, common half the time and legend one in fifty, and the
-card is coloured to match. Thirty-seven perks over five shelves:
+card is coloured to match. Thirty-six perks over five shelves:
 
 - **Common**, stackable numbers: GALLOP, THICK HIDE, HORN OF PLENTY,
   SUPERNUMERARY, HARD LIGHT, LONG SHOT, A SNACK, LUCKY HORSESHOE, STEADY
-  HOOVES (the blink recharges faster), BIG HEART (hearts heal double).
+  HOOVES (the blink recharges faster).
 - **Uncommon**, a new rule: POT OF GOLD, MEADOW REGEN, SHARP HORN, GLITTER
   HOOVES, SURE FOOTED, BLOOM, AMMO BELT, BRIGHT EYES (every enemy on the map),
   HOARDER (four shards make WHITE LIGHT), LONG BLINK (half again as far).

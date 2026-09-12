@@ -58,10 +58,6 @@ function walls() {
     const [ax, ay] = Q[i], [bx, by] = Q[(i + 1) % 4], [x1, y1] = T(ax, ay), [x2, y2] = T(bx, by);
     if (!inView(ax, ay, 400) && !inView(bx, by, 400) && !inView((ax + bx) / 2, (ay + by) / 2, 400)) continue;
     X.fillStyle = C(260, 14, L[i]); X.beginPath(); X.moveTo(ax, ay); X.lineTo(bx, by); X.lineTo(x2, y2); X.lineTo(x1, y1); X.fill();
-    X.strokeStyle = C(260, 12, L[i] - 9); X.lineWidth = 1; X.beginPath();
-    for (let s = 0; s <= 1; s += 40 / hyp(bx - ax, by - ay)) { const x = ax + (bx - ax) * s, y = ay + (by - ay) * s; if (inView(x, y, 80)) { const [tx, ty] = T(x, y); X.moveTo(x, y); X.lineTo(tx, ty); } }   // the planks
-    for (let f = .35; f < 1; f += .35) { const [px, py] = T(ax, ay, f), [qx, qy] = T(bx, by, f); X.moveTo(px, py); X.lineTo(qx, qy); }   // the courses
-    X.stroke();
   }
   X.lineWidth = 2; X.strokeStyle = C(260, 20, 8); X.strokeRect(1, 1, WW - 2, WH - 2);   // the foot of the wall
   X.strokeStyle = C(260, 22, 58); X.beginPath();                                     // the rim

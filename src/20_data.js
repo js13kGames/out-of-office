@@ -58,7 +58,6 @@ const PK = [
   ['A SNACK', 'HEAL 40 NOW', 0, 9, p => p.hp = Math.min(p.mhp, p.hp + 40)],
   ['LUCKY HORSESHOE', '+50% DROPS', 0, 3, p => p.luck *= 1.5],
   ['STEADY HOOVES', 'BLINK RECHARGES FASTER', 0, 3, p => p.blk *= .75],
-  ['BIG HEART', 'HEARTS HEAL DOUBLE', 0, 1, p => p.hh = 1],
   /* uncommon: a new rule */
   ['POT OF GOLD', 'PICKUPS DRIFT TO YOU', 1, 1, p => p.magnet = 1],
   ['MEADOW REGEN', 'HEAL ON COLOUR', 1, 1, p => p.regen = 1],

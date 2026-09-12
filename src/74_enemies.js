@@ -150,7 +150,7 @@ function stepPickups() {
         return 0;
       }
       say(PN[k]);
-      if (!k) { p.hp = Math.min(p.mhp, p.hp + 20 + (p.hh | 0) * 20); snd(500, .2, 'sine', .05, 1000); }
+      if (!k) { p.hp = Math.min(p.mhp, p.hp + 20); snd(500, .2, 'sine', .05, 1000); }
       else if (k == 7) { xp += 4 + wave * 2; snd(1200, .1, 'square', .04); snd(1800, .2, 'square', .04); }
       else if (k == 8) { paint(u.x, u.y, 7, 1); boom(u.x, u.y, 50); snd(300, .5, 'triangle', .06, 1200); for (let i = 0; i < 40; i++) fx.push({ x: u.x, y: u.y, vx: cos(i / 6.4) * 3, vy: sin(i / 6.4) * 3, l: 25, c: C(HUES[i % 7], 62) }); }
       else if (k == 9) { en.forEach(e => { if (inView(e.x, e.y)) e.hp -= isB(e) ? 100 : 999; }); flash = 12; shake = 12; hstop = 6; boom(p.x, p.y, 120, 0); sh(1, .12, 600); }

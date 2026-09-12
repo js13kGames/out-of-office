@@ -25,7 +25,7 @@ function rail(x, y, an) {
   const cx = cos(an), sy = sin(an), L = 330, d = 7 * P.dmg;
   rails.push({ x, y, an, l: 10 });
   const on = (ox, oy, r) => { const dx = ox - x, dy = oy - y, a = dx * cx + dy * sy; return a > 0 && a < L && abs(dx * sy - dy * cx) < r; };
-  en.forEach(e => { if (on(e.x, e.y, e.r + 2)) { damage(e, d); if (P.frost) e.slow = 40; fx.push({ x: e.x, y: e.y, vx: 0, vy: 0, l: 8, c: C(HUES[e.id % 7], 70) }); } });
+  en.forEach(e => { if (on(e.x, e.y, e.r + 2)) { damage(e, d); if (P.frost) e.slow = 40; } });
   we.forEach(w => { if (on(w.x, w.y, 12)) { w.hp -= d; w.hit = 3; } });
   for (let i = 0; i < L; i += 16) paint(x + cx * i, y + sy * i, 0, .3);
 }

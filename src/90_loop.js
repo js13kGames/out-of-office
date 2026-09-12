@@ -21,9 +21,9 @@ function tick() {
     let g = 0;                                        // the map: one pixel per five cells, and the field's grey share
     for (let y = 0; y < 36; y++) for (let x = 0; x < 64; x++) { const v = sat[x * 5 + y * 5 * GW], a = v < .3; g += a; MMX.fillStyle = a ? C(0, 8, 0) : C(110, 22 + 14 * v, 45); MMX.fillRect(x, y, 1, 1); }
     gry = g / 2304;
-    ACH.forEach((a, i) => { if (!(ach >> i & 1) && a[1]()) { ach |= 1 << i; try { localStorage.ach = ach; } catch (e) {} say('UNLOCKED: ' + a[0], 180); snd(1000, .4, 'triangle', .05, 2000); } });
+    ACH.forEach((a, i) => { if (!(ach >> i & 1) && a[1]()) { ach |= 1 << i; try { localStorage.OOO_ach = ach; } catch (e) {} say('UNLOCKED: ' + a[0], 180); snd(1000, .4, 'triangle', .05, 2000); } });
   }
-  if (dead && t - stT > 90) { st = 'over'; stT = t; if (kills > best) { best = kills; try { localStorage.pl = best; } catch (e) {} } }
+  if (dead && t - stT > 90) { st = 'over'; stT = t; if (kills > best) { best = kills; try { localStorage.OOO_best = best; } catch (e) {} } }
   if (shake) shake--;
 }
 function render() {
