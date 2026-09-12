@@ -25,11 +25,17 @@ assets. Every pixel, note and word is generated from code at runtime.
     npm run pack     # Terser + Roadroller + zip + advzip, checked against 13,312
     npm test         # headless: build with a test handle, play a scripted minute under node-canvas
     npm run shots    # rewrite screenshots/*.png from the packed build
+    npm run sim      # a bot plays whole games headlessly and prints the difficulty curve
 
 The packed entry is `dist/index.html`; `dist/game.zip` is the submission.
 `advzip` (from advancecomp, `brew install advancecomp`) is optional and worth
-about 400 bytes; the build says which zipper it used. Current pack: **13,301 B**,
-11 under the limit.
+about 400 bytes; the build says which zipper it used. Current pack: **13,303 B**,
+9 under the limit.
+
+`npm run sim` plays three five-minute games with a bot that kites, blinks
+when surrounded, chases pickups and picks perks by a priority list, and prints
+where health, kills and the horde stood at every wave; `node tools/sim.js
+--games 5 --minutes 8 --wave 10 --policy random` changes the run.
 
 ## The idea
 
@@ -57,6 +63,8 @@ Three things make it more than a horde shooter with a horse:
 ## The grey
 
 Waves last thirty seconds. Each new kind is announced when it first appears.
+The difficulty picked on the title scales enemy health and spawn counts: EASY
+is 0.7, NORMAL 1, HARD 1.4.
 
 | Kind | Wave | What it does |
 |---|---|---|
@@ -77,8 +85,8 @@ Waves last thirty seconds. Each new kind is announced when it first appears.
 | **SHREDDER** | 25 | pulls you in and feeds out strips, which are moths |
 | **PHOTOCOPIER** | 40 | gigantic; rings of sixteen, and every four seconds it scans and copies eight drabs off its edge |
 
-Bosses scale with the wave, ignore the horde cap, and drop gold, a paint bomb
-and a prism. Their deaths have lines: *UNCENSORED*, *RUBBED OUT*, *UNSTAPLED*,
+Bosses scale with the wave, ignore the horde cap, die to a chord and a crash
+in the music's key, and drop gold, a paint bomb and a prism. Their deaths have lines: *UNCENSORED*, *RUBBED OUT*, *UNSTAPLED*,
 *RETURN TO SENDER*, *PAPER JAM*, *OUT OF TONER*.
 
 **Inkwells** are where the grey comes from: every spawn burst climbs out of
@@ -114,30 +122,32 @@ and five of them make **WHITE LIGHT**: eight seconds of every band at once,
 three times the fire rate, shots that pierce three more, invulnerability and a
 horn that tramples.
 
-**Blink.** Shift, Q, E, the right mouse button, or a quick tap on the move
-half of a touch screen teleports you a short way in the direction you are
+**Blink.** Shift, Q, E or the right mouse button teleports you a short way in the direction you are
 moving (or facing), straight through the grey, with a moment of
 invulnerability. Three charges, one back every two and a half seconds; the
 BLINK pips in the bottom bar show them.
 
-**Perks** come three at a time on every level. Each card
-rolls its own rarity, common half the time and legend one in fifty, and the
-card is coloured to match. Thirty-one perks over five shelves:
+**Perks** come three at a time on every level, and R rerolls them once. Each
+card rolls its own rarity, common half the time and legend one in fifty, and the
+card is coloured to match. Thirty-seven perks over five shelves:
 
 - **Common**, stackable numbers: GALLOP, THICK HIDE, HORN OF PLENTY,
-  SUPERNUMERARY, HARD LIGHT, LONG SHOT, A SNACK, LUCKY HORSESHOE.
+  SUPERNUMERARY, HARD LIGHT, LONG SHOT, A SNACK, LUCKY HORSESHOE, STEADY
+  HOOVES (the blink recharges faster), BIG HEART (hearts heal double).
 - **Uncommon**, a new rule: POT OF GOLD, MEADOW REGEN, SHARP HORN, GLITTER
-  HOOVES, SURE FOOTED, BLOOM, AMMO BELT, BRIGHT EYES (every enemy on the map).
+  HOOVES, SURE FOOTED, BLOOM, AMMO BELT, BRIGHT EYES (every enemy on the map),
+  HOARDER (four shards make WHITE LIGHT), LONG BLINK (half again as far).
 - **Rare**, the sky: DOUBLE RAINBOW (shots bounce), ALEXANDER'S BAND (the dark
   ring between the bows slows what is near), A FOAL (up to two follow you and
   shoot), FROSTBITE, PIERCING LIGHT, MIRROR (every volley also fires
   backwards), FLASH STEP (the blink burns what it crosses).
 - **Epic**: SECOND WIND, FULL SPECTRUM (every eighth volley is a ring),
   THUNDERHEAD (kills arc lightning onward), COLOURFAST (nothing drains the
-  ground near you).
+  ground near you), INKPROOF (grey spit cannot hurt you).
 - **Legend**: MOONBOW (night falls, the grey is slower for good), PRISM HEART
-  (ammo never runs out), COMET TAIL (your trail is a rainbow that burns), END
-  OF THE RAINBOW (a hundred health and all the gold).
+  (ammo never runs out), COMET TAIL (your trail is a rainbow that burns),
+  OVERTIME (waves last forty seconds, so the bosses come later and every wave
+  pays more), END OF THE RAINBOW (a hundred health and all the gold).
 
 **Detail.** Everything that shines blooms, enemies flash when hit, a boss
 death and a nova freeze the frame for a beat, kills within a second and a half
@@ -153,12 +163,17 @@ LIGHT, a legend perk, wave three untouched, five minutes with the field under
 
 ## How to play
 
+Keyboard and mouse only.
+
 | | |
 |---|---|
-| **Move** | WASD or arrows; on touch, drag the left half |
-| **Aim and fire** | the mouse, hold the button; on touch, drag the right half |
-| **Blink** | Shift, Q, E or the right button; on touch, a quick tap on the left half |
-| **Perks** | arrows and Enter, 1 2 3, or a tap |
+| **Move** | WASD or arrows |
+| **Aim and fire** | the mouse; hold the button |
+| **Blink** | Shift, Q, E or the right mouse button |
+| **Pause** | P or Escape |
+| **Perks** | click a card; R rerolls the three, once a level |
+| **Fullscreen** | F |
+| **Difficulty** | left and right on the title: EASY, NORMAL, HARD |
 | **Sound** | M, or the SND label in the corner |
 
 ## Art and sound
@@ -180,8 +195,9 @@ second.
 
 **Bloom.** Fire and only fire: shots, the muzzle flash, sparks, explosions
 (every kill leaves a burst that lives only in the glow layer; bosses, novas,
-paint bombs and dry wells leave big ones), hit flashes and pickups are drawn
-a second time onto a glow canvas, which is shrunk to a quarter, an eighth and
+paint bombs and dry wells leave big ones), hit flashes, pickups and the grey's
+spit (a cold ink blue, so it can be dodged) are drawn a second time onto a
+glow canvas, which is shrunk to a quarter, an eighth and
 a sixteenth of the screen with bilinear sampling (the shrink is the blur) and
 added back over the frame with the `lighter` composite. Three small canvases
 and five drawImage calls a frame; the grey and the unicorn never touch the
@@ -206,7 +222,8 @@ detuned squares. Everything runs through a compressor and a reverb made from
 a second and a half of decaying noise; the snare, hats and crash are the same
 second of noise through filters. A voice joins every few waves so the arena
 gets louder as it gets worse, with a snare fill every fourth bar and a crash
-after it; the title is the pad and the arpeggio alone.
+after it; the drums drop out for the first two seconds of every wave and crash
+back in; the title is the pad and the arpeggio alone.
 
 **Sound effects** are the same voices through the same chain. Kills pop *in
 key*, a pentatonic note over the bar's chord that climbs with the combo; the
@@ -228,7 +245,7 @@ load order. Insert new modules at a free number, never renumber.
     30_state       all mutable state, newGame
     40_sprites     pixel strings baked with a rim; rotated drawing
     50_meadow      the colour grid, the flowers, the pit walls
-    60_input       keys, mouse, two touch sticks, menus
+    60_input       keys, mouse, menus
     70_player      movement, aim, the blink, the foal, getting hurt
     72_bullets     every prism, chain lightning, goo, what the grey spits
     74_enemies     spawning, waves, seven kinds and six bosses, the spatial hash, deaths, pickups, shards, level-ups

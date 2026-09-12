@@ -16,9 +16,10 @@ const files = readdirSync('src').filter(f => f.endsWith('.js')).sort();
 const parts = files.map(f => ({ f, src: readFileSync('src/' + f, 'utf8') }));
 let source = parts.map(p => p.src).join('\n');
 if (test) source += `
-;globalThis.__g = { tick, render, menu, take, newGame, blink, set touch(v){touch=v}, set fire(v){fire=v}, get mech(){return mech}, get shards(){return shards},
+;globalThis.__g = { tick, render, menu, take, newGame, blink, set fire(v){fire=v}, set mx(v){mx=v}, set my(v){my=v}, get camX(){return camX}, get camY(){return camY}, get mech(){return mech}, get shards(){return shards},
   get st(){return st}, set st(v){st=v}, get P(){return P}, get en(){return en}, get kills(){return kills},
-  get wave(){return wave}, get lvl(){return lvl}, get gry(){return gry}, get K(){return K}, get opts(){return opts}, get pu(){return pu}, get we(){return we}, get fx(){return fx}, set wave(v){wave=v}, set xp(v){xp=v}, spawn, set lit(v){lit=v} };`;
+  aimNearest(){ let b=0,bd=1e9; for (const e of en) { const d=Math.abs(e.x-P.x)+Math.abs(e.y-P.y); if (d<bd) { bd=d; b=e; } } if (b) { mx=b.x-camX; my=b.y-camY; } },
+  get wave(){return wave}, get lvl(){return lvl}, get gry(){return gry}, get K(){return K}, get opts(){return opts}, get pu(){return pu}, get we(){return we}, get fx(){return fx}, set wave(v){wave=v}, set xp(v){xp=v}, set seed(v){seed=v}, set dif(v){dif=v}, get bc(){return bc}, get tm(){return tm}, get dead(){return dead}, get bossK(){return bossK}, get eb(){return eb}, get sel(){return sel}, set sel(v){sel=v}, spawn, set lit(v){lit=v} };`;
 
 const min = await minify(source, {
   ecma: 2020,
@@ -63,7 +64,7 @@ const raw = source.length, minified = code.length;
 const zipped = existsSync('dist/game.zip') ? statSync('dist/game.zip').size : 0;
 const pct = n => (n / BUDGET * 100).toFixed(1) + '%';
 
-console.log('\n  OUT OF OFFICE build' + (useRR ? '  [roadroller]' : ''));
+console.log('\n  OUT OF OFFICE build' + (useRR ? '  [roadroller]' : '') + (test ? '  [test handle: larger than the submission pack]' : ''));
 console.log('  ' + '-'.repeat(46));
 if (report) {
   const total = parts.reduce((s, p) => s + p.src.length, 0);

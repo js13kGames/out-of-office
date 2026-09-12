@@ -74,7 +74,7 @@ function drawEnemies() {
   });
 }
 function drawBullets() {
-  if (!gl) eb.forEach(b => { R(b.x - 2, b.y - 2, 5, 5, C(0, 30, 0)); R(b.x - 1, b.y - 1, 3, 3, C(0, 55, 0)); });
+  eb.forEach(b => { R(b.x - 2, b.y - 2, 5, 5, gl ? C(230, 60, 80) : C(0, 30, 0)); R(b.x - 1, b.y - 1, 3, 3, C(0, 55, 0)); });   // grey spit, with a cold ink glow
   bu.forEach(b => {
     if (!inView(b.x, b.y, 4)) return;
     const s = 2 + (b.k == 1 || b.k == 2) + gl * 3, o = s / 2 | 0;
@@ -121,7 +121,7 @@ function hud() {
   R(0, 0, W, 11, C(260, 8, 20, .55));
   for (let i = 0; i < 7; i++) bar(4 + i * 6, 3, 6, clamp(p.hp / p.mhp * 7 - i, 0, 1), C(HUES[i], 60), C(0, 20, 0));   // health is a rainbow
   bar(50, 3, 40, xp / nxt, C(45, 70, 90), C(0, 20, 0)); txt('L' + lvl, 93, 3, C(45, 80), 1);
-  for (let i = 0; i < 5; i++) R(108 + i * 4, 3, 3, 4, i < shards ? C(HUES[i + 1], 75, 95) : C(0, 20, 0));   // shards toward WHITE LIGHT
+  for (let i = 0; i < 5 - (p.hoard | 0); i++) R(108 + i * 4, 3, 3, 4, i < shards ? C(HUES[i + 1], 75, 95) : C(0, 20, 0));   // shards toward WHITE LIGHT
   txt('BLINK', 48, H - 7, C(0, 85, 0), 1);                                                                   // blink charges: three, one back every 150 ticks
   for (let i = 0; i < 3; i++) { R(72 + i * 5, H - 7, 4, 5, C(0, 20, 0)); const h = i < bc ? 5 : i == bc ? 5 - bl / 30 | 0 : 0; if (h) R(72 + i * 5, H - 2 - h, 4, h, C(0, 100, 0)); }
   if (mech) bar(200, H - 7, 50, mech / 480, C(0, 100, 100), C(0, 20, 0));
@@ -149,7 +149,7 @@ function hud() {
     R(mx0 + p.x / q, my0 + p.y / q, 2, 2, C(45, 80, 100));
     X.strokeStyle = C(0, 100, 0, .3); X.lineWidth = 1; X.strokeRect(mx0 + camX / q, my0 + camY / q, W / q, H / q);
   }
-  if (!touch && !dead) {                                           // the reticle: a pixel ring of four bars and a dot, with a shadow; the bars step out when a volley leaves
+  if (!dead) {                                                     // the reticle: a pixel ring of four bars and a dot, with a shadow; the bars step out when a volley leaves
     const x = mx | 0, y = my | 0, o = 3 + (cool > WP[wep][1] * p.rate - 3);
     for (const [d, c] of [[1, C(0, 0, 0, .45)], [0, C(50, 40, 100, .85)]]) {
       R(x - 1 + d, y - o + d, 3, 1, c); R(x - 1 + d, y + o + d, 3, 1, c); R(x - o + d, y - 1 + d, 1, 3, c); R(x + o + d, y - 1 + d, 1, 3, c); R(x + d, y + d, 1, 1, c);

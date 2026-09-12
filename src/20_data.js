@@ -18,6 +18,7 @@ const EK = [
   ['PHOTOCOPIER', 56, 2400, .2, 40, 400, .3, 40, 60],   // gigantic. Rings of sixteen, and every four seconds it copies: a scan, and eight drabs off its edge
 ];
 const isB = e => e.k == 3 || e.k >= 8, BK = [3, 8, 9, 10, 11], BM = { 3: 'UNCENSORED', 8: 'RUBBED OUT', 9: 'UNSTAPLED', 10: 'RETURN TO SENDER', 11: 'PAPER JAM', 12: 'OUT OF TONER' };   // the boss rota and what it says when one dies
+const DN = ['EASY', 'NORMAL', 'HARD'], DM = [.7, 1, 1.4];   // difficulty: names, and the multiplier on enemy health and spawn counts
 const SPW = [50, 25, 6, 0, 10, 14, 10, 6, 0, 0, 0, 0, 0];   // spawn weights by kind; bosses arrive on their own
 /* Pickups by kind: 0 heart, 1..6 a prism, then 7 gold, 8 paint bomb, 9 nova,
    10 hourglass, 11 shield, 12 sugar, 13 a prism shard (five make WHITE LIGHT). DROP is the cumulative chance table. */
@@ -56,6 +57,8 @@ const PK = [
   ['LONG SHOT', '+33% RANGE', 0, 4, p => p.life *= 1.33],
   ['A SNACK', 'HEAL 40 NOW', 0, 9, p => p.hp = Math.min(p.mhp, p.hp + 40)],
   ['LUCKY HORSESHOE', '+50% DROPS', 0, 3, p => p.luck *= 1.5],
+  ['STEADY HOOVES', 'BLINK RECHARGES FASTER', 0, 3, p => p.blk *= .75],
+  ['BIG HEART', 'HEARTS HEAL DOUBLE', 0, 1, p => p.hh = 1],
   /* uncommon: a new rule */
   ['POT OF GOLD', 'PICKUPS DRIFT TO YOU', 1, 1, p => p.magnet = 1],
   ['MEADOW REGEN', 'HEAL ON COLOUR', 1, 1, p => p.regen = 1],
@@ -65,6 +68,8 @@ const PK = [
   ['BLOOM', 'KILLS REPAINT WIDER', 1, 2, p => p.bloom++],
   ['AMMO BELT', 'DOUBLE AMMO', 1, 1, p => p.belt = 1],
   ['BRIGHT EYES', 'ALL GREY ON THE MAP', 1, 1, p => p.map = 1],
+  ['HOARDER', 'FOUR SHARDS MAKE LIGHT', 1, 1, p => p.hoard = 1],
+  ['LONG BLINK', 'BLINK HALF AGAIN AS FAR', 1, 1, p => p.bd = 1],
   /* rare: the sky */
   ['DOUBLE RAINBOW', 'SHOTS BOUNCE', 2, 1, p => p.bounce = 1],
   ["ALEXANDER'S BAND", 'A RING THAT SLOWS', 2, 1, p => p.band = 1],
@@ -78,9 +83,11 @@ const PK = [
   ['FULL SPECTRUM', '8TH VOLLEY IS A RING', 3, 1, p => p.ring = 1],
   ['THUNDERHEAD', 'KILLS ARC LIGHTNING', 3, 1, p => p.thunder = 1],
   ['COLOURFAST', 'NO DRAIN NEAR YOU', 3, 1, p => p.aura = 1],
+  ['INKPROOF', 'SPIT CANNOT HURT YOU', 3, 1, p => p.ink = 1],
   /* legend: the sky changes */
   ['MOONBOW', 'NIGHT: GREY SLOWER', 4, 1, p => p.moon = 1],
   ['PRISM HEART', 'ENDLESS AMMO', 4, 1, p => p.inf = 1],
   ['COMET TAIL', 'A BURNING TRAIL', 4, 1, p => p.comet = 1],
+  ['OVERTIME', 'WAVES LAST 40 SECONDS', 4, 1, p => p.over = 1],
   ['END OF THE RAINBOW', '+100 HP, ALL THE GOLD', 4, 1, p => { p.mhp += 100; p.hp = p.mhp; p.magnet = 1; p.luck *= 2; }],
 ];

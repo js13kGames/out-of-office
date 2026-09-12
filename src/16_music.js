@@ -7,7 +7,8 @@
    tune on the minor pentatonic in twin detuned squares. Everything goes
    through a compressor, and a reverb made from a second and a half of
    decaying noise. Layers join as the waves climb; the title is the pad and
-   the arpeggio alone. */
+   the arpeggio alone. The drums drop out for the first two seconds of every
+   wave and crash back in. */
 let mstep = 0, mnext = 0, MG = 0, RV = 0, DL = 0, PG = 0, LP = 0;
 const CH = [0, 8, 3, 10], CT = [[0, 3, 7], [0, 4, 7], [0, 4, 7], [0, 4, 7]],   // chord roots from A, and their tones
       PENT = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22],
@@ -47,7 +48,7 @@ function nz(at, d, v, fc, rv = 0, hp = 0) {         // noise through a lowpass (
 function music() {
   if (!lit || mute) return;
   ac(); mix();
-  const go = st == 'play' || st == 'perk', sp = go ? frz ? .2 : .1 : .17, v = go ? Math.min(wave, 9) : 0, low = go && P.hp < P.mhp * .3;   // the hourglass halves the tempo
+  const go = (st == 'play' && !paused) || st == 'perk', dr = go && waveT > 120, sp = go ? frz ? .2 : .1 : .17, v = go ? Math.min(wave, 9) : 0, low = go && P.hp < P.mhp * .3;   // the hourglass halves the tempo
   DL.delayTime.value = sp * 3; LP.frequency.setTargetAtTime(low ? 500 : 18000, AC.currentTime, .15);
   if (mnext < AC.currentTime) mnext = AC.currentTime + .05;
   while (mnext < AC.currentTime + .3) {
@@ -56,12 +57,12 @@ function music() {
       CT[c].forEach(n => vc(fq(root + n, 2), w, sp * 12, 'sawtooth', go ? .035 : .05, 9, 1200, .5, 0, 0, PG));
       if (go && c == 0 && v > 1) nz(w, 1.2, .08, 9000, .8, 1);
     }
-    if (go && KICK[i] != '.') {                                                          // the kick, and the pad ducks under it
+    if (dr && KICK[i] != '.') {                                                          // the kick, and the pad ducks under it
       vc(KICK[i] == 'K' ? 150 : 110, w, .16, 'sine', KICK[i] == 'K' ? .5 : .25, 0, 0, 0, 0, 40); nz(w, .02, .15, 3000);
       PG.gain.cancelScheduledValues(w); PG.gain.setValueAtTime(.25, w); PG.gain.linearRampToValueAtTime(1, w + sp * 2.5);
     }
-    if (go && v > 1 && !low && (SNR[i] != '.' || fill)) { nz(w, fill ? .08 : .18, fill ? .12 : .25, 1800, .5); vc(190, w, .1, 'triangle', .2, 0, 0, 0, 0, 90); }
-    if (go && !low && HAT[i] != '.' && (HAT[i] != 'O' || v > 3)) nz(w, HAT[i] == 'O' ? .25 : HAT[i] == 'H' ? .05 : .03, HAT[i] == 'h' ? .04 : .07, 7000, .1, 1);
+    if (dr && v > 1 && !low && (SNR[i] != '.' || fill)) { nz(w, fill ? .08 : .18, fill ? .12 : .25, 1800, .5); vc(190, w, .1, 'triangle', .2, 0, 0, 0, 0, 90); }
+    if (dr && !low && HAT[i] != '.' && (HAT[i] != 'O' || v > 3)) nz(w, HAT[i] == 'O' ? .25 : HAT[i] == 'H' ? .05 : .03, HAT[i] == 'h' ? .04 : .07, 7000, .1, 1);
     if (BASS[i] != '.' && go) vc(fq(root + (BASS[i] == 'r' ? 7 : 0), 0), w, sp * 2.6, 'sawtooth', .28, 5, 900, 0, 0, 0);
     if (ARP[i] != '.' && (!go || v > 0)) vc(fq(root + CT[c][i % 3] + (i % 6 > 2 ? 12 : 0), 3), w, sp * 1.4, go ? 'square' : 'triangle', go ? .045 : .06, 4, 0, .3, .5);
     const L = LEAD[(bar % 4) * 12 + i % 12];

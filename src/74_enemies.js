@@ -8,12 +8,12 @@ function spawn(k, x, y) {
     x = s < 2 ? camX + u * W : s == 2 ? camX - 14 : camX + W + 14;
     y = s >= 2 ? camY + u * H : s ? camY + H + 14 : camY - 14;
   }
-  const hp = d[2] * (boss ? 1 + wave / 10 : 1 + (wave - 1) * .08);
+  const hp = d[2] * (boss ? 1 + wave / 10 : 1 + (wave - 1) * .08) * DM[dif];
   en.push({ k, x, y, hp, mh: hp, r: d[1], sp: d[3] * (.85 + rs() * .3),
             slow: 0, hit: 0, t: rs() * 99 | 0, ph: rs() * 7, id: eid++, vx: 0, vy: 0 });
 }
 function stepWaves() {
-  if (++waveT > 1800) {                              // thirty seconds a wave; every fifth brings a boss; every wave opens a well
+  if (++waveT > (P.over ? 2400 : 1800)) {                              // thirty seconds a wave; every fifth brings a boss; every wave opens a well
     waveT = 0; wave++; snd(220, .3, 'square', .04, 440);
     const nu = EK.find(e => e[7] == wave);
     say('WAVE ' + wave + (nu ? ': ' + nu[0] : ''));
@@ -22,7 +22,7 @@ function stepWaves() {
   }
   if (--spawnT <= 0) {                               // a burst climbs out of a well; only with no well left does it come in from the edge
     spawnT = Math.max(20, 60 - wave * 3);
-    const n = Math.min(40, 4 + wave * 2 | 0), ks = SPW.map((w, i) => EK[i][7] <= wave ? w : 0), tot = ks.reduce((a, b) => a + b), w = we.length && pick(we);
+    const n = Math.min(40, (4 + wave * 2) * DM[dif] | 0), ks = SPW.map((w, i) => EK[i][7] <= wave ? w : 0), tot = ks.reduce((a, b) => a + b), w = we.length && pick(we);
     for (let i = 0; i < n; i++) {
       let r = rs() * tot, k = 0; while ((r -= ks[k]) > 0) k++;
       if (w) spawn(k, w.x + rs() * 16 - 8, w.y + rs() * 16 - 8); else spawn(k);
@@ -109,7 +109,7 @@ function stepEnemies() {
     for (let i = 0; i < 4 + e.r && fx.length < 2500; i++) fx.push({ x: e.x, y: e.y, vx: rs() * 4 - 2, vy: rs() * 4 - 2, l: 15 + rs() * 15, c: C(HUES[i % 7], 62) });
     if (inView(e.x, e.y) && kills % 3 == 0) snd(fq(CH[(mstep / 12 | 0) % 4] + PENT[Math.min(9, combo >> 1)], boss ? 1 : 3), .14, 'square', .04, boss ? 30 : 0);   // a pop in key, climbing with the combo
     if (e.k == 2) for (let i = 0; i < 3; i++) spawn(0, e.x + rs() * 12 - 6, e.y + rs() * 12 - 6);
-    if (boss) { bossK++; say(BM[e.k]); shake = 12; hstop = 10; flash = 8; boom(e.x, e.y, 60); for (let i = 0; i < 3; i++) pu.push({ x: e.x + i * 10 - 10, y: e.y, k: [7, 8, 1 + rs() * 6 | 0][i], t: 0 }); }
+    if (boss) { bossK++; say(BM[e.k]); for (const n of [0, 7, 12]) snd(fq(CH[(mstep / 12 | 0) % 4] + n, 1), 1.4, 'sawtooth', .1); sh(1.2, .25, 6000); shake = 12; hstop = 10; flash = 8; boom(e.x, e.y, 60); for (let i = 0; i < 3; i++) pu.push({ x: e.x + i * 10 - 10, y: e.y, k: [7, 8, 1 + rs() * 6 | 0][i], t: 0 }); }
     if (p.thunder && rs() < .5) arc(e.x, e.y, 0, 2, 1);
     const r = rs() / p.luck; let dr = DROP.find(d => r < d[0]);
     if (dr && dr[1] > 8 && dr[1] < 13) { if (t - puT < 1200) dr = 0; else puT = t; }   // nova, hourglass, shield, sugar: one every twenty seconds at most
@@ -118,7 +118,7 @@ function stepEnemies() {
   });
   hashAll();                                         // the bullets look things up next, in the new list
   if (comboT && !--comboT) combo = 0;
-  if (xp >= nxt) { lvl++; nxt = nxt * 1.6 + 40 | 0; levelUp(); }
+  if (xp >= nxt) { lvl++; nxt = nxt * 1.6 + 40 | 0; rr = 0; levelUp(); }
 }
 const damage = (e, n) => { e.hp -= n; e.hit = 3; };
 /* three cards. Each rolls its own rarity, then draws a perk of that rarity
@@ -144,12 +144,13 @@ function stepPickups() {
       const k = u.k;
       if (k >= 1 && k < 7) { wep = k; ammo = WP[k][2] * (p.belt ? 2 : 1); say(WP[k][0]); snd(700, .15, 'square', .04, 1400); return 0; }
       if (k == 13) {                                                       // five shards make WHITE LIGHT: twelve seconds of everything
-        if (++shards < 5) { say('SHARD ' + shards + '/5', 60); snd(900 + shards * 200, .15, 'sine', .04, 1800 + shards * 400); }
+        const need = 5 - (p.hoard | 0);
+        if (++shards < need) { say('SHARD ' + shards + '/' + need, 60); snd(900 + shards * 200, .15, 'sine', .04, 1800 + shards * 400); }
         else { shards = 0; mech = 480; flash = 10; shake = 6; say('WHITE LIGHT'); snd(400, .8, 'triangle', .07, 3200); sh(.6, .08, 5000); }
         return 0;
       }
       say(PN[k]);
-      if (!k) { p.hp = Math.min(p.mhp, p.hp + 20); snd(500, .2, 'sine', .05, 1000); }
+      if (!k) { p.hp = Math.min(p.mhp, p.hp + 20 + (p.hh | 0) * 20); snd(500, .2, 'sine', .05, 1000); }
       else if (k == 7) { xp += 4 + wave * 2; snd(1200, .1, 'square', .04); snd(1800, .2, 'square', .04); }
       else if (k == 8) { paint(u.x, u.y, 7, 1); boom(u.x, u.y, 50); snd(300, .5, 'triangle', .06, 1200); for (let i = 0; i < 40; i++) fx.push({ x: u.x, y: u.y, vx: cos(i / 6.4) * 3, vy: sin(i / 6.4) * 3, l: 25, c: C(HUES[i % 7], 62) }); }
       else if (k == 9) { en.forEach(e => { if (inView(e.x, e.y)) e.hp -= isB(e) ? 100 : 999; }); flash = 12; shake = 12; hstop = 6; boom(p.x, p.y, 120, 0); sh(1, .12, 600); }

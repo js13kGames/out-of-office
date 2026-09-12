@@ -1,8 +1,8 @@
 /* ---------- the unicorn ------------------------------------------- */
 function stepPlayer() {
   const p = P;
-  let dx = (K.d || K.arrowright ? 1 : 0) - (K.a || K.arrowleft ? 1 : 0) + jx,
-      dy = (K.s || K.arrowdown ? 1 : 0) - (K.w || K.arrowup ? 1 : 0) + jy;
+  let dx = (K.d || K.arrowright ? 1 : 0) - (K.a || K.arrowleft ? 1 : 0),
+      dy = (K.s || K.arrowdown ? 1 : 0) - (K.w || K.arrowup ? 1 : 0);
   let d = hyp(dx, dy); if (d > 1) { dx /= d; dy /= d; d = 1; }
   const grey = sat[cell(p.x, p.y)] < .3, sp = p.spd * (grey && !p.sure ? .5 : 1), ox = p.x, oy = p.y;
   p.x = clamp(p.x + dx * sp, 6, WW - 6); p.y = clamp(p.y + dy * sp, 6, WH - 6);
@@ -13,16 +13,13 @@ function stepPlayer() {
     if (t % 5 == 0) fx.push({ x: ox - dx * 6, y: oy - dy * 6 + 3, vx: -dx * .3, vy: -dy * .3, l: 12, c: C(40, 70, 30, .5) });   // dust
     if (p.comet && t % 2 == 0) bu.push({ x: ox, y: oy, vx: 0, vy: 0, d: .4, c: HUES[t / 2 % 7 | 0], l: 40, k: 0, b: 1, p: 99 });
   }
-  /* aim: the mouse, the right stick, or the nearest of the grey */
-  if (ax || ay) p.an = atan2(ay, ax);
-  else if (!touch) p.an = atan2(my + camY - p.y, mx + camX - p.x);
-  else { const e = nearest(p.x, p.y); if (e) p.an = atan2(e.y - p.y, e.x - p.x); }
+  p.an = atan2(my + camY - p.y, mx + camX - p.x);   // aim: the mouse
   if (cool > 0) cool--;
   else if (fire) { volley(); cool = WP[wep][1] * p.rate * (rush ? .5 : 1) * (mech ? .3 : 1); }
   if (mech) p.inv = Math.max(p.inv, 41);
-  if (bc < 3 && !bl) { bc++; bl = 150; }     // the blink recharges, one charge a second and a half
+  if (bc < 3 && !bl) { bc++; bl = 150 * p.blk | 0; }     // the blink recharges, one charge a second and a half
   if (p.inv) p.inv--;
-  if (p.regen && !grey && p.hp < p.mhp && t % 20 == 0) p.hp++;
+  if (p.regen && !grey && p.hp < p.mhp && t % 60 == 0) p.hp++;   // one a second on colour
   if (p.band) en.forEach(e => { if (hyp(e.x - p.x, e.y - p.y) < 34) e.slow = 2; });
   /* foals trot behind and fire a small prism at whatever is nearest */
   p.fo.forEach((f, i) => {
@@ -37,13 +34,13 @@ function stepPlayer() {
    charges, straight through the grey. FLASH STEP makes the trail burn. */
 function blink() {
   const p = P; if (!bc || st != 'play' || dead) return;
-  bc--; if (!bl) bl = 150; p.inv = Math.max(p.inv, 12); snd(1400, .12, 'sine', .05, 2800);
+  bc--; if (!bl) bl = 150 * p.blk | 0; p.inv = Math.max(p.inv, 12); snd(1400, .12, 'sine', .05, 2800);
   for (let i = 0; i < 12; i++) {
     const x = p.x + p.dx * i * 4, y = p.y + p.dy * i * 4;
     fx.push({ x, y, vx: 0, vy: 0, l: 10 + i, c: C(HUES[i % 7], 65) });
     if (p.fs) near(x, y, e => { if (hyp(e.x - x, e.y - y) < e.r + 6) damage(e, 6); });
   }
-  p.x = clamp(p.x + p.dx * 48, 6, WW - 6); p.y = clamp(p.y + p.dy * 48, 6, WH - 6);
+  const j = 48 + (p.bd | 0) * 24; p.x = clamp(p.x + p.dx * j, 6, WW - 6); p.y = clamp(p.y + p.dy * j, 6, WH - 6);
 }
 function nearest(x, y) {
   let b = 0, bd = 1e9;

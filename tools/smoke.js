@@ -18,13 +18,13 @@ const ck = (n, c) => { console.log((c ? '  ok   ' : '  FAIL ') + n); if (!c) fai
 ck('boots to title', g.st === 'title');
 g.render();
 g.menu(); ck('a key starts a game', g.st === 'play');
-g.touch = 1; g.fire = 1;                        // the touch path: aim at the nearest thing, hold to fire
+g.fire = 1;                                     // hold to fire; the mouse follows the nearest thing each tick
 let perks = 0, shot = 0, peak = 0; const rar = new Set(), kinds = new Set(), picks = new Set(), wells = new Set();
 for (let i = 0; i < 5400 && g.st !== 'over'; i++) {
   g.K.d = i % 400 < 200; g.K.a = !g.K.d; g.K.w = i % 300 < 150; g.K.s = !g.K.w;   // wander
   if (i === 300) { g.wave = 6; g.P.hp = g.P.mhp = 3000; }   // skip ahead to a real horde; a tougher pilot, since the bot cannot dodge
   if (i % 200 == 0) g.blink();
-  g.tick(); peak = Math.max(peak, g.en.length); if (i % 30 === 0) { g.en.forEach(e => kinds.add(e.k)); g.pu.forEach(u => picks.add(u.k)); g.we.forEach(w => wells.add(w)); }
+  g.aimNearest(); g.tick(); peak = Math.max(peak, g.en.length); if (i % 30 === 0) { g.en.forEach(e => kinds.add(e.k)); g.pu.forEach(u => picks.add(u.k)); g.we.forEach(w => wells.add(w)); }
   if (i === 900) { g.render(); writeFileSync('dist/shot.png', cv.toBuffer('image/png')); shot = 1; }
   if (g.st === 'perk') { g.opts.forEach(o => rar.add(o[2])); g.render(); if (!perks) writeFileSync('dist/perk.png', cv.toBuffer('image/png')); perks++; g.take(); }
 }

@@ -11,7 +11,8 @@
     "pack": "node tools/build.js --roadroller",
     "test": "node tools/build.js --test --roadroller && node tools/smoke.js",
     "reopt": "node tools/build.js --roadroller --reopt",
-    "shots": "node tools/build.js --test --roadroller && node tools/shots.js"
+    "shots": "node tools/build.js --test --roadroller && node tools/shots.js",
+    "sim": "node tools/build.js --test --roadroller && node tools/sim.js"
   },
   "devDependencies": {
     "canvas": "^3.2.3",

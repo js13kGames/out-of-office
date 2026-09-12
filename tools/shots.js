@@ -20,11 +20,11 @@ const shot = name => {
   x.imageSmoothingEnabled = false; x.drawImage(cv, 0, 0, out.width, out.height);
   writeFileSync('screenshots/' + name + '.png', out.toBuffer('image/png')); console.log('  screenshots/' + name + '.png');
 };
-const run = (n, f) => { for (let i = 0; i < n; i++) { if (f) f(i); g.tick(); if (g.st === 'perk') g.take(); } };
+const run = (n, f) => { for (let i = 0; i < n; i++) { if (f) f(i); g.aimNearest(); g.tick(); if (g.st === 'perk') g.take(); } };
 /* the title */
 run(40); shot('title');
 /* the zoo: every kind and every pickup in one view */
-g.menu(); g.touch = 1; g.fire = 1; run(90);
+g.menu(); g.fire = 1; run(90);
 g.en.length = 0; g.pu.length = 0;
 const p = g.P;
 [[0, -60, -40], [1, -30, -50], [2, 20, -50], [4, 60, -40], [5, -70, 0], [6, 70, 0], [7, -50, 40], [3, 30, 40], [8, -10, 55]].forEach(([k, x, y]) => g.spawn(k, p.x + x, p.y + y));
@@ -36,7 +36,7 @@ g.en.length = 0; g.pu.length = 0; g.we.length = 0; p.fo.length = 0; p.band = 0; 
 [[12, 150, -10], [9, -90, -50], [10, 60, -65], [11, 10, 65], [3, -100, 35], [8, 100, 70]].forEach(([k, x, y]) => g.spawn(k, p.x + x, p.y + y));
 run(130, () => { const b = g.en.filter(e => e.k == 3 || e.k >= 8); g.en.length = 0; g.en.push(...b); }); g.fx.length = 0; for (let i = 0; i < 130; i++) g.render(); shot('bosses');   // the banner counts down per frame
 /* the horde, a minute into wave 6 */
-g.newGame(); g.touch = 1; g.fire = 1; g.wave = 6; g.P.hp = g.P.mhp = 3000;
+g.newGame(); g.fire = 1; g.wave = 6; g.P.hp = g.P.mhp = 3000;
 run(900, i => { g.K.d = i % 400 < 200; g.K.a = !g.K.d; g.K.w = i % 300 < 150; g.K.s = !g.K.w; }); shot('horde');
 /* the perk screen */
 g.K.d = g.K.a = g.K.w = g.K.s = 0; g.tick(); if (g.st !== 'perk') { g.xp = 1e9; g.tick(); }

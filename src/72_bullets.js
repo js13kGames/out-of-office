@@ -52,7 +52,7 @@ function stepBullets() {
   bolts = bolts.filter(b => --b.l > 0);
   eb = eb.filter(b => {                             // what the grey spits: hurts you, greys the ground where it lands
     b.x += b.vx; b.y += b.vy;
-    if (hyp(b.x - P.x, b.y - P.y) < 7) { hurtP(8); return 0; }
+    if (hyp(b.x - P.x, b.y - P.y) < 7) { if (!P.ink) hurtP(8); return 0; }   // INKPROOF shrugs it off
     if (--b.l <= 0) { drain(b.x, b.y, .5); return 0; }
     return 1;
   });
