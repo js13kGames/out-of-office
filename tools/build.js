@@ -18,7 +18,7 @@ let source = parts.map(p => p.src).join('\n');
 if (test) source += `
 ;globalThis.__g = { tick, render, menu, take, newGame, blink, set touch(v){touch=v}, set fire(v){fire=v}, get mech(){return mech}, get shards(){return shards},
   get st(){return st}, set st(v){st=v}, get P(){return P}, get en(){return en}, get kills(){return kills},
-  get wave(){return wave}, get lvl(){return lvl}, get gry(){return gry}, get K(){return K}, get opts(){return opts}, get pu(){return pu}, get we(){return we}, set wave(v){wave=v}, spawn, set lit(v){lit=v} };`;
+  get wave(){return wave}, get lvl(){return lvl}, get gry(){return gry}, get K(){return K}, get opts(){return opts}, get pu(){return pu}, get we(){return we}, get fx(){return fx}, set wave(v){wave=v}, set xp(v){xp=v}, spawn, set lit(v){lit=v} };`;
 
 const min = await minify(source, {
   ecma: 2020,

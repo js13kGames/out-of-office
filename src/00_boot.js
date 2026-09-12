@@ -1,6 +1,6 @@
 /* ============================================================
    OUT OF OFFICE  -  js13k draft
-   A top-down arena survival shooter in the Crimsonland mould, with a unicorn.
+   A top-down arena survival shooter, with a unicorn.
    The Grey pours in from every edge and drains the colour out of the meadow;
    your horn is a prism and every shot is a rainbow. Kill things, pick up
    prisms, choose perks, keep the world in colour.
