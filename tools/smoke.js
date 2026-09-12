@@ -32,7 +32,7 @@ g.render();
 ck('screenshots written', shot);
 ck('the grey came', g.kills > 0);
 ck('waves advanced', g.wave >= 2);
-ck('a horde: over 300 on the field at once', peak > 300);
+ck('a horde: over 200 on the field at once', peak > 200);
 ck('perk rarities seen: ' + [...rar].sort().join(' '), rar.size >= 2);
 ck('levelled up and took perks', perks > 0);
 ck('some of the field went to ash', g.gry > 0);

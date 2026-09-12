@@ -77,8 +77,13 @@ function drawBullets() {
   eb.forEach(b => { R(b.x - 2, b.y - 2, 5, 5, gl ? C(230, 60, 80) : C(0, 30, 0)); R(b.x - 1, b.y - 1, 3, 3, C(0, 55, 0)); });   // grey spit, with a cold ink glow
   bu.forEach(b => {
     if (!inView(b.x, b.y, 4)) return;
-    const s = 2 + (b.k == 1 || b.k == 2) + gl * 3, o = s / 2 | 0;
+    const s = 2 + (b.k == 2) + gl * 3, o = s / 2 | 0;
     R(b.x - b.vx - o, b.y - b.vy - o, s, s, C(b.c, 60, 90, .45)); R(b.x - o, b.y - o, s, s, C(b.c, 70, 95));
+  });
+  rails.forEach(r => {                                             // the rail: seven bands side by side and a white core, fading out
+    const a = r.l / 10; X.save(); X.translate(r.x, r.y); X.rotate(r.an);
+    for (let i = 0; i < 7; i++) R(0, i - 3, 330, 1, C(HUES[i], 65, 95, a * .8));
+    R(0, -1, 330, 2 + gl * 2, C(0, 100, 0, a)); X.restore();
   });
   X.lineWidth = 1;
   bolts.forEach(b => { X.strokeStyle = C(52, 70 + b.l * 4, 100, b.l / 6); X.beginPath(); X.moveTo(b.x, b.y);

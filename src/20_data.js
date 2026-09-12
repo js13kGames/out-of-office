@@ -29,7 +29,7 @@ const PN = ['HEART', 0, 0, 0, 0, 0, 0, 'GOLD', 'PAINT BOMB', 'NOVA', 'HOURGLASS'
 const WP = [
   ['PRISM', 11, 0],          // seven bands, each its own speed: every shot fans into a rainbow
   ['REDSHIFT', 3, 180],      // a hose of slow red heat
-  ['VIOLET RAIL', 26, 24],   // one line through everything
+  ['RAINBOW RAIL', 26, 24],  // one line through everything, all seven bands in its wake
   ['GREEN GOO', 16, 36],     // lobbed, leaves a puddle
   ['BLUE FROST', 5, 140],    // slows what it touches
   ['YELLOW ARC', 13, 50],    // chain lightning

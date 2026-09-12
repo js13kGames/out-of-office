@@ -108,7 +108,7 @@ the view.
 
 ## The unicorn
 
-**Prisms.** REDSHIFT (a hose), VIOLET RAIL (pierces everything), GREEN GOO
+**Prisms.** REDSHIFT (a hose), RAINBOW RAIL (an instant beam through everything, all seven bands wide), GREEN GOO
 (puddles), BLUE FROST (slows), YELLOW ARC (chain lightning), ORANGE BURST
 (shotgun). Each comes with its own ammo.
 
