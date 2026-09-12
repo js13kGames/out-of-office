@@ -23,8 +23,8 @@ const UNI = [
 const uniPal = (ch, i, y) => ch == 'B' ? C(40, 94, 30) : ch == 'H' ? C(45, 62, 100) : ch == 'E' ? C(40, 82, 30)
   : ch == 'F' ? C(280, 32, 40) : ch == 'M' ? C(HUES[(i - 3) % 7], 58) : C(HUES[y % 7], 58);
 const uni = f => spr('u' + f, UNI[f], uniPal);
-const FOAL = [['.F..F.....', 'TBBBBBBE..', 'TBBBBBBB..', 'TBBBBBBE..', '..F..F....'], ['..F..F....', 'TBBBBBBE..', 'TBBBBBBB..', 'TBBBBBBE..', '.F..F.....']];
-const foalS = f => spr('o' + f, FOAL[f], (ch, i, y) => ch == 'B' ? C(40, 90, 30) : ch == 'T' ? C(HUES[3], 60) : ch == 'E' ? C(40, 75, 30) : C(280, 30, 40));
+const FOAL = [['.F..F.....', 'TBBMMMBBE.', 'TBBMMMBBBH', 'TBBMMMBBE.', '..F..F....'], ['..F..F....', 'TBBMMMBBE.', 'TBBMMMBBBH', 'TBBMMMBBE.', '.F..F.....']];   // a small unicorn: mane, tail and a horn nub
+const foalS = f => spr('o' + f, FOAL[f], (ch, i, y) => ch == 'B' ? C(40, 90, 30) : ch == 'E' ? C(40, 75, 30) : ch == 'F' ? C(280, 30, 40) : uniPal(ch, i + 1, y + 1));
 /* the grey: a blob with eyes that squashes as it walks, and a moth with two frames of wing */
 const DRAB = [['..GGGGGG..', '.GGGGGGGG.', 'GGgGGGGgGG', 'GGGGGGGGGG', 'GGGGGGGGGG', '.GGGGGGGG.', '..GGGGGG..'],
               ['..........', '.GGGGGGGG.', 'GGgGGGGgGG', 'GGGGGGGGGG', 'GGGGGGGGGG', '.GGGGGGGG.', '..GGGGGG..']];

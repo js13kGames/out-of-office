@@ -9,7 +9,7 @@ function title() {
   txt('THE GREY IS COMING. STAY COLOURFUL.', W / 2, 128, C(0, 90, 0), 1, 1);
   txt('WASD MOVE   MOUSE AIM   HOLD TO FIRE   SHIFT: BLINK', W / 2, 140, C(0, 70, 0), 1, 1);
   txt('F: FULLSCREEN   M: SOUND', W / 2, 148, C(0, 60, 0), 1, 1);
-  txt(lit ? (t / 30 & 1 ? 'PRESS ANY KEY' : '') : 'CLICK TO START', W / 2, 159, C(45, 80), 1, 1);
+  if (t / 30 & 1) txt('PRESS ANY KEY', W / 2, 159, C(45, 80), 1, 1);
   if (best) txt('BEST ' + best + ' KILLS   ' + ACH.filter((a, i) => ach >> i & 1).length + '/' + ACH.length + ' UNLOCKED', W / 2, 170, C(0, 60, 0), 1, 1);
 }
 const cardX = i => 12 + i * 100;                    // three cards of 96, centred

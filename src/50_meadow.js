@@ -24,13 +24,11 @@ function drain(x, y, k) {
 /* only the cells in view are drawn; the camera translate is already applied */
 function meadow() {
   const x0 = clamp(camX / 8 | 0, 0, GW - 1), y0 = clamp(camY / 8 | 0, 0, GH - 1), x1 = Math.min(GW, x0 + W / 8 + 2), y1 = Math.min(GH, y0 + H / 8 + 2);
-  for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
-    const i = x + y * GW, s = sat[i], chk = (x + y) & 1;
+  for (let p = 0; p < 2; p++) for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {   // the ground first, then every flower, so none is painted over by the cell beside it
+    const i = x + y * GW, s = sat[i], chk = (x + y) & 1, q = fl[i];
+    if (p) { if (q) flower(x * 8 + 2 + (q >> 2 & 3), y * 8 + 1 + (q >> 4 & 3), q & 3, HUES[(q >> 2) % 7], fg[i] += (s - fg[i]) * .035, s, x + y); continue; }
     R(x * 8, y * 8, 8, 8, s < .3 ? C(0, 11 + chk * 3 + s * 10, 0) : C(fh[i], 20 + chk * 3 + 18 * s, 55 * s + 4));   // ash where the grey has walked
-    const f = (x * 7 + y * 13) % 8;
-    const q = fl[i];
-    if (q) flower(x * 8 + 2 + (q >> 2 & 3), y * 8 + 1 + (q >> 4 & 3), q & 3, HUES[(q >> 2) % 7], fg[i] += (s - fg[i]) * .035, s, x + y);
-    else if (f == 5) R(x * 8 + 5 - chk, y * 8 + 1 + chk * 4, 1, 3, C(fh[i], 30 + 16 * s, 40 * s + 4));   // a taller blade
+    if (!q && (x * 7 + y * 13) % 8 == 5) R(x * 8 + 5 - chk, y * 8 + 1 + chk * 4, 1, 3, C(fh[i], 30 + 16 * s, 40 * s + 4));   // a taller blade
   }
 }
 /* a flower: a sprout, a bud on a stem, then one of three blooms that opens
