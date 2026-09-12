@@ -6,5 +6,5 @@ const files = readdirSync('src').filter(f => f.endsWith('.js')).sort();
 const tags = files.map(f => `<script src="src/${f}"></script>`).join('\n');
 writeFileSync('dev.html', readFileSync('src/index.html', 'utf8')
   .replace('<script>/*GAME*/</script>', tags)
-  .replace('<title>OUT OF OFFICE</title>', '<title>OUT OF OFFICE [dev]</title>'));
+  .replace('<title>OoO</title>', '<title>OoO [dev]</title>'));
 console.log('dev.html written with ' + files.length + ' modules');

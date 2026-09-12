@@ -8,13 +8,13 @@ function shot(x, y, an, sp, d, hue, l, k) {
 function volley() {
   const p = P, x = p.x + cos(p.an) * 2, y = p.y + sin(p.an) * 2, an = p.an, s = (a, sp, d, hue, l, k) => shot(x, y, a, sp, d, hue, l, k);   // from the centre, so a thing standing on you still gets hit
   const w = wep, xs = p.extra, n0 = bu.length;
-  if (w == 0) { for (let b = 0; b < 7 + xs; b++) s(an + (b - 3 - xs / 2) * .055, 2.4 + (b % 7) * .28, 1, HUES[b % 7], 55, 0); snd(500, .06, 'square', .02, 900); }
-  else if (w == 1) { for (let i = 0; i <= xs / 2; i++) s(an + (rs() - .5) * .35, 3.6, 1, HUES[0], 20, 0); snd(180, .05, 'sawtooth', .02, 90); }
-  else if (w == 2) { s(an, 10, 7, HUES[6], 40, 1); for (let i = 0; i < xs; i++) s(an + (i + 1) * .1 * (i % 2 ? 1 : -1), 10, 7, HUES[6], 40, 1); snd(1400, .18, 'sawtooth', .04, 200); shake = 2; }
-  else if (w == 3) { for (let i = 0; i <= xs / 2; i++) s(an + (i - xs / 4) * .2, 2.4, 1, HUES[3], 34, 2); snd(300, .12, 'sine', .04, 120); }
-  else if (w == 4) { for (let i = 0; i <= xs / 2; i++) s(an + (rs() - .5) * .5, 3, .6, HUES[4], 18, 3); sh(.05, .02, 3000); }
+  if (w == 0) { for (let b = 0; b < 7 + xs; b++) s(an + (b - 3 - xs / 2) * .055, 2.4 + (b % 7) * .28, 1, HUES[b % 7], 55, 0); snd(900, .09, 'square', .07, 1800); }
+  else if (w == 1) { for (let i = 0; i <= xs / 2; i++) s(an + (rs() - .5) * .35, 3.6, 1, HUES[0], 20, 0); snd(160, .06, 'sawtooth', .05, 70); }
+  else if (w == 2) { s(an, 10, 7, HUES[6], 40, 1); for (let i = 0; i < xs; i++) s(an + (i + 1) * .1 * (i % 2 ? 1 : -1), 10, 7, HUES[6], 40, 1); snd(1600, .2, 'sawtooth', .09, 150); shake = 2; }
+  else if (w == 3) { for (let i = 0; i <= xs / 2; i++) s(an + (i - xs / 4) * .2, 2.4, 1, HUES[3], 34, 2); snd(320, .14, 'sine', .08, 90); }
+  else if (w == 4) { for (let i = 0; i <= xs / 2; i++) s(an + (rs() - .5) * .5, 3, .6, HUES[4], 18, 3); sh(.06, .06, 4500); }
   else if (w == 5) arc(x, y, an, 3 + xs);
-  else { for (let i = 0; i < 6 + xs; i++) s(an + (rs() - .5) * .6, 3.4 + rs(), 2, HUES[1], 13, 0); snd(120, .12, 'square', .05, 40); shake = 3; }
+  else { for (let i = 0; i < 6 + xs; i++) s(an + (rs() - .5) * .6, 3.4 + rs(), 2, HUES[1], 13, 0); snd(140, .14, 'square', .1, 35); shake = 3; }
   if (p.mirror) for (let i = n0, n1 = bu.length; i < n1; i++) { const b = bu[i]; bu.push({ ...b, x: p.x - (b.x - p.x), y: p.y - (b.y - p.y), vx: -b.vx, vy: -b.vy }); }
   if (p.ring && ++vol % 8 == 0) { for (let i = 0; i < 14; i++) shot(p.x, p.y, i * PI / 7, 3, 1, HUES[i % 7], 50, 0); snd(700, .3, 'triangle', .04, 1400); }
   if (ammo && !p.inf && !--ammo) { wep = 0; say('PRISM'); }
@@ -30,7 +30,7 @@ function arc(x, y, an, hops, quiet) {
     bolts.push({ x: cx, y: cy, x2: b.x, y2: b.y, l: 6 }); hit.push(b); damage(b, 3 * P.dmg); paint(b.x, b.y, 0, .5);
     cx = b.x; cy = b.y;
   }
-  if (!quiet) snd(2000 + rs() * 1000, .08, 'square', hit.length ? .03 : .01, 300);
+  if (!quiet) snd(2000 + rs() * 1000, .1, 'square', hit.length ? .07 : .03, 300);
 }
 function stepBullets() {
   bu = bu.filter(b => {

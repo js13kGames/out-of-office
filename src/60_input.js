@@ -10,11 +10,11 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase(); K[k] = 1;
   if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) e.preventDefault();
   wake();
-  if (k == 'm') mute ^= 1;
+  if (k == 'm') return mute ^= 1;                  // mute and fullscreen never start or advance a screen
+  if (k == 'f') return CV.requestFullscreen();
   if (e.repeat) return;
   if (k == 'shift' || k == 'q' || k == 'e') blink();
   if (st == 'play' && (k == 'p' || k == 'escape')) paused ^= 1;
-  if (k == 'f') CV.requestFullscreen();
   if (st == 'perk') { if (k == 'r' && !rr) { rr = 1; levelUp(); } return; }   // cards are clicked; R is one reroll a level
   if (st == 'title' && (k == 'arrowleft' || k == 'arrowright' || k == 'a' || k == 'd')) { dif = (dif + (k == 'arrowleft' || k == 'a' ? 2 : 1)) % 3; return; }
   if (st != 'play') menu();

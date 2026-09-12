@@ -7,15 +7,16 @@ function title() {
   X.save(); X.translate(W / 2, 96); X.scale(3, 3); X.drawImage(uni(t / 12 & 1), -7, -4); X.restore();
   txt('< ' + DN[dif] + ' >', W / 2, 114, C(45, 80), 1, 1);
   txt('THE GREY IS COMING. STAY COLOURFUL.', W / 2, 128, C(0, 90, 0), 1, 1);
-  txt('WASD MOVE   MOUSE AIM   HOLD TO FIRE   SHIFT: BLINK   F: FULLSCREEN', W / 2, 142, C(0, 70, 0), 1, 1);
-  txt(lit ? (t / 30 & 1 ? 'PRESS ANY KEY' : '') : 'CLICK TO START', W / 2, 158, C(45, 80), 1, 1);
+  txt('WASD MOVE   MOUSE AIM   HOLD TO FIRE   SHIFT: BLINK', W / 2, 140, C(0, 70, 0), 1, 1);
+  txt('F: FULLSCREEN   M: SOUND', W / 2, 148, C(0, 60, 0), 1, 1);
+  txt(lit ? (t / 30 & 1 ? 'PRESS ANY KEY' : '') : 'CLICK TO START', W / 2, 159, C(45, 80), 1, 1);
   if (best) txt('BEST ' + best + ' KILLS   ' + ACH.filter((a, i) => ach >> i & 1).length + '/' + ACH.length + ' UNLOCKED', W / 2, 170, C(0, 60, 0), 1, 1);
 }
 const cardX = i => 12 + i * 100;                    // three cards of 96, centred
 function perkScreen() {
   R(0, 0, W, H, C(260, 8, 30, .6));
   const y = H / 2 - 40 | 0;
-  txt('LEVEL ' + lvl + ' - PICK A PERK', W / 2, y - 26, C(0, 100, 0), 2, 1);
+  txt('LEVEL ' + lvl, W / 2, y - 26, C(0, 100, 0), 2, 1);
   opts.forEach((o, i) => {
     const x = cardX(i), on = i == (mx - 12) / 100 | 0, r = o[2], rc = RC[r], leg = r == 4;   // the card under the mouse lights up
     R(x, y, 96, 80, on ? C(leg ? HUES[(t / 8 | 0) % 7] : rc[0], leg ? 60 : rc[1] + 15, rc[2]) : C(rc[0], rc[1] * .5, rc[2] * .6));
