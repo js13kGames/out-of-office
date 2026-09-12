@@ -34,7 +34,7 @@ function arc(x, y, an, hops, quiet) {
   let cx = x, cy = y, hit = [];
   for (let n = 0; n < hops; n++) {
     let b = 0, bd = n ? 60 : 100;
-    en.forEach(e => { if (hit.includes(e)) return; const dx = e.x - cx, dy = e.y - cy, d = hyp(dx, dy);
+    en.concat(we).forEach(e => { if (hit.includes(e)) return; const dx = e.x - cx, dy = e.y - cy, d = hyp(dx, dy);   // inkwells are targets too
       if (d < bd && (n || quiet || dx * cos(an) + dy * sin(an) > 0)) { bd = d; b = e; } });
     if (!b) break;
     bolts.push({ x: cx, y: cy, x2: b.x, y2: b.y, l: 6 }); hit.push(b); damage(b, 3 * P.dmg); paint(b.x, b.y, 0, .5);

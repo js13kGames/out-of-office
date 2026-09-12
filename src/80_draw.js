@@ -105,7 +105,7 @@ function drawPlayer() {
   if (cool > WP[wep][1] * p.rate - 3) R(p.x + cos(p.an) * 8 - 1, p.y + sin(p.an) * 8 - 1, 3, 3, C(45, 90, 100));   // the horn flares
 }
 /* sparks, and explosions: an explosion (r set) lives only in the glow layer, a square that grows and fades into a soft burst */
-function drawFx() { fx.forEach(f => { if (f.r) { if (gl) { const s = f.r * (1.6 - f.l / 10); R(f.x - s, f.y - s, s * 2, s * 2, C(f.c, 75, 95, f.l / 12)); } } else R(f.x, f.y, 2 + gl, 2 + gl, f.c); }); }
+function drawFx() { fx.forEach(f => { if (f.r) { if (gl) { const s = f.r * (1.6 - f.l / 10); R(f.x - s, f.y - s, s * 2, s * 2, C(f.c, 75, 95, f.l / 20)); } } else R(f.x, f.y, 2 + gl, 2 + gl, f.c); }); }
 const boom = (x, y, r, c = HUES[t % 7]) => fx.push({ x, y, vx: 0, vy: 0, l: 10, c, r });
 const drawMsg = () => { if (msgT > 0) { R(W / 2 - msg.length * 4 - 3, 37, msg.length * 8 + 4, 16, C(260, 8, 12, .6)); txt(msg, W / 2, 40, C(0, 100, 0), 2, 1, msgT < 40 ? -1 : t / 4 % 7 | 0); } };   // on a dark plate, and never in the glow layer
 function bloom() {

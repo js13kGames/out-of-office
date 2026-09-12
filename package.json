@@ -12,7 +12,8 @@
     "test": "node tools/build.js --test --roadroller && node tools/smoke.js",
     "reopt": "node tools/build.js --roadroller --reopt",
     "shots": "node tools/build.js --test --roadroller && node tools/shots.js",
-    "sim": "node tools/build.js --test --roadroller && node tools/sim.js"
+    "sim": "node tools/build.js --test --roadroller && node tools/sim.js",
+    "promo": "node tools/build.js --test --roadroller && node tools/promo.js"
   },
   "devDependencies": {
     "canvas": "^3.2.3",

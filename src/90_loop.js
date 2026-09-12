@@ -38,7 +38,7 @@ function render() {
     if (st == 'perk') perkScreen();
     if (st == 'over') overScreen();
     if (paused) { R(0, 0, W, H, C(260, 8, 20, .5)); txt('PAUSED', W / 2, 80, C(0, 100, 0), 2, 1); }
-    if (P.inv > 24) R(0, 0, W, H, C(0, 60, 90, .15));
+    if (P.inv > 24) R(0, 0, W, H, C(0, 60, 90, .06));
   }
   X.restore();
 }

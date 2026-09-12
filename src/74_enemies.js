@@ -85,7 +85,7 @@ function stepEnemies() {
       if (c == 45) { e.x = e.tx; e.y = e.ty; paint(e.x, e.y, 2, -1); shake = 8; boom(e.x, e.y, 30, 0); if (d < 30) hurtP(d0[4]); snd(60, .3, 'square', .07, 20); }
       if (c < 45) vx = vy = 0;
     }
-    if (k == 12 && e.t % 240 == 0) { for (let i = 0; i < 8; i++) spawn(0, e.x + cos(i * .8) * 62, e.y + sin(i * .8) * 62); flash = 4; snd(500, .5, 'sawtooth', .05, 100); }   // the copier copies
+    if (k == 12 && e.t % 240 == 0) { for (let i = 0; i < 8; i++) spawn(0, e.x + cos(i * .8) * 62, e.y + sin(i * .8) * 62); snd(500, .5, 'sawtooth', .05, 100); }   // the copier copies
     if (k == 11) {                                                           // the shredder pulls you in and spits strips
       if (d < 140 && !p.inv) { p.x -= dx / d * .6; p.y -= dy / d * .6; }
       if (e.t % 180 == 0) for (let i = 0; i < 3; i++) spawn(1, e.x + i * 6 - 6, e.y + 12);
@@ -102,17 +102,17 @@ function stepEnemies() {
   const dead = en.filter(e => e.hp <= 0); en = en.filter(e => e.hp > 0);   // deaths after the cull: what they spawn joins the new list
   dead.forEach(e => {
     const d0 = EK[e.k], boss = isB(e); kills++;
-    combo++; comboT = 90; bestC = Math.max(bestC, combo); xp += d0[5] * (1 + combo / 40);
+    combo++; comboT = 90; bestC = Math.max(bestC, combo); xp += d0[5] * (1 + Math.min(combo, 100) / 40);
     if (e.k == 5) { paint(e.x, e.y, 1, -.7); for (let i = 0; i < 6; i++) fx.push({ x: e.x, y: e.y, vx: rs() * 2 - 1, vy: rs() * 2 - 1, l: 20, c: C(0, 30, 0) }); }   // a blot splats
     else paint(e.x, e.y, (boss ? 4 : e.k == 2) + p.bloom, 1);   // the colour it was holding goes back to the meadow
-    boom(e.x, e.y, 4 + e.r, HUES[kills % 7]);
-    for (let i = 0; i < 4 + e.r && fx.length < 2500; i++) fx.push({ x: e.x, y: e.y, vx: rs() * 4 - 2, vy: rs() * 4 - 2, l: 15 + rs() * 15, c: C(HUES[i % 7], 62) });
+    boom(e.x, e.y, 3 + e.r / 2, HUES[kills % 7]);
+    for (let i = 0; i < 3 + e.r / 2 && fx.length < 1500; i++) fx.push({ x: e.x, y: e.y, vx: rs() * 4 - 2, vy: rs() * 4 - 2, l: 15 + rs() * 15, c: C(HUES[i % 7], 62) });
     if (inView(e.x, e.y) && kills % 3 == 0) snd(fq(CH[(mstep / 12 | 0) % 4] + PENT[Math.min(9, combo >> 1)], boss ? 1 : 3), .14, 'square', .04, boss ? 30 : 0);   // a pop in key, climbing with the combo
     if (e.k == 2) for (let i = 0; i < 3; i++) spawn(0, e.x + rs() * 12 - 6, e.y + rs() * 12 - 6);
-    if (boss) { bossK++; say(BM[e.k]); for (const n of [0, 7, 12]) snd(fq(CH[(mstep / 12 | 0) % 4] + n, 1), 1.4, 'sawtooth', .1); sh(1.2, .25, 6000); shake = 12; hstop = 10; flash = 8; boom(e.x, e.y, 60); for (let i = 0; i < 3; i++) pu.push({ x: e.x + i * 10 - 10, y: e.y, k: [7, 8, 1 + rs() * 6 | 0][i], t: 0 }); }
+    if (boss) { bossK++; say(BM[e.k]); for (const n of [0, 7, 12]) snd(fq(CH[(mstep / 12 | 0) % 4] + n, 1), 1.4, 'sawtooth', .1); sh(1.2, .25, 6000); shake = 12; hstop = 10; flash = 5; boom(e.x, e.y, 60); for (let i = 0; i < 3; i++) pu.push({ x: e.x + i * 10 - 10, y: e.y, k: [7, 8, 1 + rs() * 6 | 0][i], t: 0 }); }
     if (p.thunder && rs() < .5) arc(e.x, e.y, 0, 2, 1);
     const r = rs() / p.luck; let dr = DROP.find(d => r < d[0]);
-    if (dr && dr[1] > 8 && dr[1] < 13) { if (t - puT < 1200) dr = 0; else puT = t; }   // nova, hourglass, shield, sugar: one every twenty seconds at most
+    if (dr && dr[1] && dr[1] != 7 && dr[1] != 8) { if (t - puT < 900) dr = 0; else puT = t; }   // prisms, shards and the powerups share one clock: one every fifteen seconds at most
     if (dr && dr[1] == 0) { if (t - hT < 240) dr = 0; else hT = t; }                  // a heart every four seconds at most, however lucky
     if (dr) pu.push({ x: e.x, y: e.y, k: dr[1] < 0 ? 1 + rs() * 6 | 0 : dr[1], t: 0 });
   });
@@ -146,7 +146,7 @@ function stepPickups() {
       if (k == 13) {                                                       // five shards make WHITE LIGHT: twelve seconds of everything
         const need = 5 - (p.hoard | 0);
         if (++shards < need) { say('SHARD ' + shards + '/' + need, 60); snd(900 + shards * 200, .15, 'sine', .04, 1800 + shards * 400); }
-        else { shards = 0; mech = 480; flash = 10; shake = 6; say('WHITE LIGHT'); snd(400, .8, 'triangle', .07, 3200); sh(.6, .08, 5000); }
+        else { shards = 0; mech = 480; flash = 6; shake = 6; say('WHITE LIGHT'); snd(400, .8, 'triangle', .07, 3200); sh(.6, .08, 5000); }
         return 0;
       }
       say(PN[k]);

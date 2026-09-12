@@ -19,7 +19,7 @@ if (test) source += `
 ;globalThis.__g = { tick, render, menu, take, newGame, blink, set fire(v){fire=v}, set mx(v){mx=v}, set my(v){my=v}, get camX(){return camX}, get camY(){return camY}, get mech(){return mech}, get shards(){return shards},
   get st(){return st}, set st(v){st=v}, get P(){return P}, get en(){return en}, get kills(){return kills},
   aimNearest(){ let b=0,bd=1e9; for (const e of en) { const d=Math.abs(e.x-P.x)+Math.abs(e.y-P.y); if (d<bd) { bd=d; b=e; } } if (b) { mx=b.x-camX; my=b.y-camY; } },
-  get wave(){return wave}, get lvl(){return lvl}, get gry(){return gry}, get K(){return K}, get opts(){return opts}, get pu(){return pu}, get we(){return we}, get fx(){return fx}, set wave(v){wave=v}, set xp(v){xp=v}, set seed(v){seed=v}, set dif(v){dif=v}, get bc(){return bc}, get tm(){return tm}, get dead(){return dead}, get bossK(){return bossK}, get eb(){return eb}, get sel(){return sel}, set sel(v){sel=v}, spawn, set lit(v){lit=v} };`;
+  get wave(){return wave}, get lvl(){return lvl}, get gry(){return gry}, get K(){return K}, get opts(){return opts}, get pu(){return pu}, get we(){return we}, get fx(){return fx}, set wave(v){wave=v}, set xp(v){xp=v}, set seed(v){seed=v}, set dif(v){dif=v}, spr: () => ({ uni, drab, moth, spit, blot, shade }), world(){ X.save(); X.translate(-(camX|0), -(camY|0)); walls(); meadow(); drawWells(); drawGoo(); drawPickups(); drawEnemies(); drawBullets(); drawPlayer(); drawFx(); X.restore(); bloom(); }, get HUES(){return HUES}, get FK(){return FK}, get FD(){return FD}, get bc(){return bc}, get tm(){return tm}, get dead(){return dead}, get bossK(){return bossK}, get eb(){return eb}, get sel(){return sel}, set sel(v){sel=v}, spawn, set lit(v){lit=v} };`;
 
 const min = await minify(source, {
   ecma: 2020,

@@ -26,11 +26,13 @@ assets. Every pixel, note and word is generated from code at runtime.
     npm test         # headless: build with a test handle, play a scripted minute under node-canvas
     npm run shots    # rewrite screenshots/*.png from the packed build
     npm run sim      # a bot plays whole games headlessly and prints the difficulty curve
+    npm run promo    # rewrite promo/*.png, the 800x500 and 320x320 submission images
 
 The packed entry is `dist/index.html`; `dist/game.zip` is the submission.
+`DESCRIPTION.md` is the submission text and `promo/` the two images.
 `advzip` (from advancecomp, `brew install advancecomp`) is optional and worth
-about 400 bytes; the build says which zipper it used. Current pack: **13,306 B**,
-6 under the limit.
+about 400 bytes; the build says which zipper it used. Current pack: **13,310 B**,
+2 under the limit.
 
 `npm run sim` plays three five-minute games with a bot that kites, blinks
 when surrounded, chases pickups and picks perks by a priority list, and prints
@@ -85,9 +87,9 @@ is 0.7, NORMAL 1, HARD 1.4.
 | **SHREDDER** | 25 | pulls you in and feeds out strips, which are moths |
 | **PHOTOCOPIER** | 40 | gigantic; rings of sixteen, and every four seconds it scans and copies eight drabs off its edge |
 
-Bosses scale with the wave, ignore the horde cap, die to a chord and a crash
+Every hit on you grows 4% a wave. Bosses scale with the wave, ignore the horde cap, die to a chord and a crash
 in the music's key, and drop gold, a paint bomb and a prism. Their deaths have lines: *UNCENSORED*, *RUBBED OUT*, *UNSTAPLED*,
-*RETURN TO SENDER*, *PAPER JAM*, *OUT OF TONER*.
+*SENT BACK*, *PAPER JAM*, *OUT OF TONER*.
 
 **Inkwells** are where the grey comes from: every spawn burst climbs out of
 one. A well is a dark hole of ink that opens out of your sight, 260 to 600 px

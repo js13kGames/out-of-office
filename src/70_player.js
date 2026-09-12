@@ -49,7 +49,7 @@ function nearest(x, y) {
 }
 function hurtP(n) {
   const p = P; if (p.inv || dead) return;
-  p.hp -= n; p.inv = 20; p.hurt = 1; shake = 6; snd(200, .15, 'sawtooth', .05, 80);
+  p.hp -= n * (.8 + wave * .04); p.inv = 20; p.hurt = 1; shake = 6;   // and harder every wave snd(200, .15, 'sawtooth', .05, 80);
   for (let i = 0; i < 6; i++) fx.push({ x: p.x, y: p.y, vx: rs() * 3 - 1.5, vy: rs() * 3 - 1.5, l: 18, c: C(0, 60, 90) });
   if (p.hp <= 0) {
     if (p.wind) { p.wind = 0; p.hp = 60; p.inv = 120; say('SECOND WIND'); en.forEach(e => { if (hyp(e.x - p.x, e.y - p.y) < 70) e.hp = 0; }); snd(440, .6, 'triangle', .06, 1760); return; }
