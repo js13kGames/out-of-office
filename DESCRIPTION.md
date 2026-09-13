@@ -25,9 +25,9 @@ Every fifth wave a boss walks in from a rota: the CENSOR, a black bar that fires
 
 ## Perks and pickups
 
-Three perk cards on every level, each rolling its own rarity from common to legend, thirty-six in all: stackable numbers, new rules (a magnet, regeneration on colour, a sharp horn, a repainting trail), the sky (a foal that follows and fires, mirrored volleys, a burning blink), and legends (night falls, endless ammo, a burning trail, forty-second waves). Pickups drop from kills: hearts, prisms, gold, a paint bomb, a nova, an hourglass, a shield, sugar rush, and shards: five make WHITE LIGHT, eight seconds of every band at once, three times the fire rate, invulnerable, trampling.
+Three perk cards on every level, each rolling its own rarity from common to legend, thirty-six in all: stackable numbers, new rules (a magnet, regeneration on colour, a sharp horn, a repainting trail), the sky (a foal that follows and fires, mirrored volleys, a burning blink, a glass horn that trades health for damage), and legends (night falls, endless ammo, a burning trail, forty-second waves). Pickups drop from kills: hearts, prisms, gold, a paint bomb, a nova, an hourglass, a shield, sugar rush, and shards: five make WHITE LIGHT, eight seconds of every band at once, three times the fire rate, invulnerable, trampling.
 
-Twelve achievements are kept between runs.
+Twelve achievements and a best kill count for each difficulty are kept between runs.
 
 ## Under the hood
 
