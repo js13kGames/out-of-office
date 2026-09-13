@@ -10,7 +10,7 @@ function title() {
   txt('WASD MOVE  MOUSE AIM  HOLD TO FIRE  SHIFT: BLINK', W / 2, 140, C(0, 70, 0), 1, 1);
   txt('F: FULLSCREEN  M: SOUND', W / 2, 148, C(0, 60, 0), 1, 1);
   if (t / 30 & 1) txt('PRESS ANY KEY', W / 2, 159, C(45, 80), 1, 1);
-  if (best) txt('BEST ' + best + ' KILLS   ' + ACH.filter((a, i) => ach >> i & 1).length + '/' + ACH.length + ' UNLOCKED', W / 2, 170, C(0, 60, 0), 1, 1);
+  if (best[dif]) txt('BEST ' + best[dif] + ' KILLS   ' + ACH.filter((a, i) => ach >> i & 1).length + '/' + ACH.length + ' UNLOCKED', W / 2, 170, C(0, 60, 0), 1, 1);
 }
 const cardX = i => 12 + i * 100;                    // three cards of 96, centred
 function perkScreen() {
@@ -34,6 +34,6 @@ function overScreen() {
   txt(kills + ' KILLS   WAVE ' + wave + '   LEVEL ' + lvl, W / 2, 80, C(0, 90, 0), 1, 1);
   const sec = tm / 60 | 0;
   txt('SURVIVED ' + (sec / 60 | 0) + ':' + (sec % 60 < 10 ? '0' : '') + sec % 60 + '   COMBO X' + bestC + '   ASH ' + (gry * 100 | 0) + '%', W / 2, 92, C(0, 70, 0), 1, 1);
-  if (kills >= best) txt('A NEW BEST', W / 2, 108, C(45, 80), 1, 1, t / 5 % 7 | 0);
+  if (kills >= best[dif]) txt('A NEW BEST', W / 2, 108, C(45, 80), 1, 1, t / 5 % 7 | 0);
   if (t - stT > 60) txt('PRESS ANY KEY', W / 2, 140, C(0, 60, 0), 1, 1);
 }

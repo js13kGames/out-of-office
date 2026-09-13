@@ -1,9 +1,9 @@
 /* ---------- what the horn fires ----------------------------------
    Kinds: 0 plain, 2 goo (leaves a puddle when it lands), 3 frost (slows what
-   it hits); the rail is a beam, not a bullet (see rail). b: bounces left, p: things it may
+   it hits); the rail is a beam, not a bullet (see rail). p: things it may
    still pass through. Every dying shot paints the meadow a little.    */
 function shot(x, y, an, sp, d, hue, l, k) {
-  bu.push({ x, y, vx: cos(an) * sp, vy: sin(an) * sp, d: d * P.dmg, c: hue, l: l * P.life, k, b: P.bounce ? 1 : 0, p: P.pierce + (mech ? 3 : 0) });
+  bu.push({ x, y, vx: cos(an) * sp, vy: sin(an) * sp, d: d * P.dmg, c: hue, l: l * P.life, k, p: P.pierce + (mech ? 3 : 0) });
 }
 function volley() {
   const p = P, x = p.x + cos(p.an) * 2, y = p.y + sin(p.an) * 2, an = p.an, s = (a, sp, d, hue, l, k) => shot(x, y, a, sp, d, hue, l, k);   // from the centre, so a thing standing on you still gets hit
@@ -45,7 +45,6 @@ function arc(x, y, an, hops, quiet) {
 function stepBullets() {
   bu = bu.filter(b => {
     b.x += b.vx; b.y += b.vy; b.l--;
-    if (b.b && !inView(b.x, b.y, 0)) { b.b--; if (b.x < camX || b.x > camX + W) b.vx = -b.vx; else b.vy = -b.vy; }   // DOUBLE RAINBOW: off the edge of the view
     if (b.x < 0 || b.x > WW || b.y < 0 || b.y > WH) return 0;
     if (b.l <= 0) { if (b.k == 2) { goo.push({ x: b.x, y: b.y, l: 360 }); paint(b.x, b.y, 1, .6); } else paint(b.x, b.y, 0, .3); return 0; }
     for (const w of we) if (abs(w.x - b.x) < 10 && abs(w.y - b.y) < 10) { w.hp -= b.d; w.hit = 3; fx.push({ x: b.x, y: b.y, vx: -b.vx * .2, vy: -b.vy * .2, l: 10, c: C(b.c, 70) }); if (!b.p) return 0; b.p--; }

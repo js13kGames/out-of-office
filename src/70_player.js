@@ -11,7 +11,7 @@ function stepPlayer() {
     if (p.glit) paint(p.x, p.y, 0, .03);
     const n = cell(p.x, p.y); if (fl[n]) { if (fg[n] > .7) for (let i = 0; i < 3; i++) fx.push({ x: p.x, y: p.y, vx: rs() * 2 - 1, vy: rs() * 2 - 1, l: 14, c: C(HUES[(fl[n] >> 2) % 7], 65) }); fg[n] = 0; }   // hooves trample flowers, and petals fly
     if (t % 5 == 0) fx.push({ x: ox - dx * 6, y: oy - dy * 6 + 3, vx: -dx * .3, vy: -dy * .3, l: 12, c: C(40, 70, 30, .5) });   // dust
-    if (p.comet && t % 2 == 0) bu.push({ x: ox, y: oy, vx: 0, vy: 0, d: .4, c: HUES[t / 2 % 7 | 0], l: 40, k: 0, b: 1, p: 99 });
+    if (p.comet && t % 2 == 0) bu.push({ x: ox, y: oy, vx: 0, vy: 0, d: .4, c: HUES[t / 2 % 7 | 0], l: 40, k: 0, p: 99 });
   }
   p.an = atan2(my + camY - p.y, mx + camX - p.x);   // aim: the mouse
   if (cool > 0) cool--;

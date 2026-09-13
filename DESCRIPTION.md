@@ -25,7 +25,7 @@ Every fifth wave a boss walks in from a rota: the CENSOR, a black bar that fires
 
 ## Perks and pickups
 
-Three perk cards on every level, each rolling its own rarity from common to legend, thirty-six in all: stackable numbers, new rules (a magnet, regeneration on colour, a sharp horn, a repainting trail), the sky (bouncing shots, a foal that follows and fires, mirrored volleys, a burning blink), and legends (night falls, endless ammo, a burning trail, forty-second waves). Pickups drop from kills: hearts, prisms, gold, a paint bomb, a nova, an hourglass, a shield, sugar rush, and shards: five make WHITE LIGHT, eight seconds of every band at once, three times the fire rate, invulnerable, trampling.
+Three perk cards on every level, each rolling its own rarity from common to legend, thirty-six in all: stackable numbers, new rules (a magnet, regeneration on colour, a sharp horn, a repainting trail), the sky (a foal that follows and fires, mirrored volleys, a burning blink), and legends (night falls, endless ammo, a burning trail, forty-second waves). Pickups drop from kills: hearts, prisms, gold, a paint bomb, a nova, an hourglass, a shield, sugar rush, and shards: five make WHITE LIGHT, eight seconds of every band at once, three times the fire rate, invulnerable, trampling.
 
 Twelve achievements are kept between runs.
 
@@ -38,4 +38,4 @@ Everything is generated at runtime, no assets:
 - Fire, sparks and explosions are drawn twice: once to the frame and once to a glow canvas that is shrunk three times and added back, which is the bloom.
 - The meadow is 57,600 cells of colour with three species of flower that grow with their cell and are trampled flat by anything that walks on them.
 - The music is one tracker: a 12/8 gallop over Am F C G with a filter-plucked bass, a ducking pad, a delayed arpeggio and a pentatonic lead, through a compressor and a reverb made of decaying noise. Every sound effect is one of the same voices. Kills pop in key and climb with the combo; the hourglass halves the tempo; near death the whole mix muffles.
-- A 3x5 font in base-32 digits. 13,310 bytes.
+- A 3x5 font in base-32 digits. 13,306 bytes.

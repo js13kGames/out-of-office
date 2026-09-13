@@ -59,7 +59,7 @@ const PK = [
   ['LUCKY HORSESHOE', '+50% DROPS', 0, 3, p => p.luck *= 1.5],
   ['STEADY HOOVES', 'BLINK RECHARGES FASTER', 0, 3, p => p.blk *= .75],
   /* uncommon: a new rule */
-  ['POT OF GOLD', 'PICKUPS DRIFT IN', 1, 1, p => p.magnet = 1],
+  ['POT OF GOLD', 'PICKUPS DRIFT', 1, 1, p => p.magnet = 1],
   ['MEADOW REGEN', 'HEAL ON COLOUR', 1, 1, p => p.regen = 1],
   ['SHARP HORN', 'TOUCH HURTS THEM', 1, 1, p => p.horn = 1],
   ['GLITTER HOOVES', 'TRAIL REPAINTS', 1, 1, p => p.glit = 1],
@@ -70,13 +70,13 @@ const PK = [
   ['HOARDER', 'FOUR SHARDS MAKE LIGHT', 1, 1, p => p.hoard = 1],
   ['LONG BLINK', 'BLINK HALF AGAIN AS FAR', 1, 1, p => p.bd = 1],
   /* rare: the sky */
-  ['DOUBLE RAINBOW', 'SHOTS BOUNCE', 2, 1, p => p.bounce = 1],
-  ["ALEXANDER'S BAND", 'A RING THAT SLOWS', 2, 1, p => p.band = 1],
+  ["ALEXANDER'S BAND", 'A SLOWING RING', 2, 1, p => p.band = 1],
   ['A FOAL', 'A FOAL SHOOTS TOO', 2, 2, p => p.fo.push({ x: p.x, y: p.y })],
   ['FROSTBITE', 'SHOTS SLOW', 2, 1, p => p.frost = 1],
   ['PIERCING LIGHT', 'SHOTS PIERCE +1', 2, 2, p => p.pierce++],
   ['MIRROR', 'FIRES BOTH WAYS', 2, 1, p => p.mirror = 1],
   ['FLASH STEP', 'BLINK BURNS', 2, 1, p => p.fs = 1],
+  ['GLASS HORN', '+50% DAMAGE -30 HP', 2, 1, p => { p.dmg *= 1.5; p.mhp -= 30; }],   // health above the new maximum stays until spent
   /* epic: bigger than you */
   ['SECOND WIND', 'SURVIVE DEATH', 3, 1, p => p.wind = 1],
   ['FULL SPECTRUM', '8TH VOLLEY IS A RING', 3, 1, p => p.ring = 1],

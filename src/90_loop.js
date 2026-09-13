@@ -23,7 +23,7 @@ function tick() {
     gry = g / 2304;
     ACH.forEach((a, i) => { if (!(ach >> i & 1) && a[1]()) { ach |= 1 << i; try { localStorage.OOO_ach = ach; } catch (e) {} say('UNLOCKED: ' + a[0], 180); snd(1000, .4, 'triangle', .05, 2000); } });
   }
-  if (dead && t - stT > 90) { st = 'over'; stT = t; if (kills > best) { best = kills; try { localStorage.OOO_best = best; } catch (e) {} } }
+  if (dead && t - stT > 90) { st = 'over'; stT = t; if (kills > best[dif]) { best[dif] = kills; try { localStorage['OOO_best' + dif] = kills; } catch (e) {} } }
   if (shake) shake--;
 }
 function render() {
